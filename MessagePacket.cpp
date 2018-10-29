@@ -10,3 +10,10 @@ struct PacketHeader {
 	int32_t type;					// 메세지 타입
 	int32_t reserved;
 };
+
+enum PacketType {
+	RequestPacket,
+	ResponsePacket, 
+	NotificationPacket,
+	AcknowledgementPacket
+};
