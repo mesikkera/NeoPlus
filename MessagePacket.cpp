@@ -11,9 +11,12 @@ struct PacketHeader {
 	int32_t reserved;
 };
 
+enum { PacketHeaderSize = sizeof(PacketHeader) };
+
 enum PacketType {
 	RequestPacket,
 	ResponsePacket, 
 	NotificationPacket,
 	AcknowledgementPacket
 };
+
