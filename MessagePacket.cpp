@@ -20,3 +20,9 @@ enum PacketType {
 	AcknowledgementPacket
 };
 
+
+// TODO: PacketHeaderFromBytes
+// TODO: PacketFromMessage
+// TODO: google protocol buffer
+
+
