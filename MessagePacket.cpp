@@ -29,6 +29,10 @@ static inline void Int32ToBytes(int32_t n, char bytes[]) {
 	bytes[3] = (n >> 0) & 0xff;
 }
 
+inline int32_t Int32FromByte(uint8_t bytes[]) {
+	return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
+}
+
 ::std::string PacketFromMessage(const ::google::protobuf::Message &message, PacketType type)
 {
 	int size = message.ByteSize() + PacketHeaderSize;
