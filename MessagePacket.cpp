@@ -48,8 +48,6 @@ inline int32_t Int32FromByte(uint8_t bytes[]) {
 	return packet;
 }
 
-// TODO: PacketHeaderFromBytes
-// TODO: PacketFromMessage
-// TODO: google protocol buffer
-
-
+PacketHeader PacketHeaderFromBytes(const void *data) { 
+	const uint8_t *bytes = static_cast<const uint8_t *>(data);
+}
