@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD3AAA0D2192EE3800233F97 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD3AAA0C2192EE3800233F97 /* main.cpp */; };
-		FD3AAA152192EE6A00233F97 /* MessagePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD3AAA132192EE6A00233F97 /* MessagePacket.cpp */; };
-		FD3AAA16219301F700233F97 /* MessagePacket.hpp in Sources */ = {isa = PBXBuildFile; fileRef = FD3AAA142192EE6A00233F97 /* MessagePacket.hpp */; };
-		FD3AAA1921955B3500233F97 /* Connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD3AAA1721955B3500233F97 /* Connection.cpp */; };
+		FDB5711B219AB79500A43C13 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDB5711A219AB79500A43C13 /* main.cpp */; };
+		FDB57123219AB7DF00A43C13 /* MessagePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDB57121219AB7DF00A43C13 /* MessagePacket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FD3AAA072192EE3800233F97 /* CopyFiles */ = {
+		FDB57115219AB79500A43C13 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -26,16 +24,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FD3AAA092192EE3800233F97 /* NeoPlus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NeoPlus; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD3AAA0C2192EE3800233F97 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		FD3AAA132192EE6A00233F97 /* MessagePacket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MessagePacket.cpp; sourceTree = "<group>"; };
-		FD3AAA142192EE6A00233F97 /* MessagePacket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MessagePacket.hpp; sourceTree = "<group>"; };
-		FD3AAA1721955B3500233F97 /* Connection.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Connection.cpp; sourceTree = "<group>"; };
-		FD3AAA1821955B3500233F97 /* Connection.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Connection.hpp; sourceTree = "<group>"; };
+		FDB57117219AB79500A43C13 /* NeoPlus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NeoPlus; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDB5711A219AB79500A43C13 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FDB57121219AB7DF00A43C13 /* MessagePacket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MessagePacket.cpp; sourceTree = "<group>"; };
+		FDB57122219AB7DF00A43C13 /* MessagePacket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MessagePacket.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FD3AAA062192EE3800233F97 /* Frameworks */ = {
+		FDB57114219AB79500A43C13 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,30 +41,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FD3AAA002192EE3800233F97 = {
+		FDB5710E219AB79500A43C13 = {
 			isa = PBXGroup;
 			children = (
-				FD3AAA0B2192EE3800233F97 /* NeoPlus */,
-				FD3AAA0A2192EE3800233F97 /* Products */,
+				FDB57119219AB79500A43C13 /* NeoPlus */,
+				FDB57118219AB79500A43C13 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		FD3AAA0A2192EE3800233F97 /* Products */ = {
+		FDB57118219AB79500A43C13 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FD3AAA092192EE3800233F97 /* NeoPlus */,
+				FDB57117219AB79500A43C13 /* NeoPlus */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FD3AAA0B2192EE3800233F97 /* NeoPlus */ = {
+		FDB57119219AB79500A43C13 /* NeoPlus */ = {
 			isa = PBXGroup;
 			children = (
-				FD3AAA0C2192EE3800233F97 /* main.cpp */,
-				FD3AAA132192EE6A00233F97 /* MessagePacket.cpp */,
-				FD3AAA142192EE6A00233F97 /* MessagePacket.hpp */,
-				FD3AAA1721955B3500233F97 /* Connection.cpp */,
-				FD3AAA1821955B3500233F97 /* Connection.hpp */,
+				FDB5711A219AB79500A43C13 /* main.cpp */,
+				FDB57121219AB7DF00A43C13 /* MessagePacket.cpp */,
+				FDB57122219AB7DF00A43C13 /* MessagePacket.hpp */,
 			);
 			path = NeoPlus;
 			sourceTree = "<group>";
@@ -76,13 +70,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FD3AAA082192EE3800233F97 /* NeoPlus */ = {
+		FDB57116219AB79500A43C13 /* NeoPlus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FD3AAA102192EE3800233F97 /* Build configuration list for PBXNativeTarget "NeoPlus" */;
+			buildConfigurationList = FDB5711E219AB79500A43C13 /* Build configuration list for PBXNativeTarget "NeoPlus" */;
 			buildPhases = (
-				FD3AAA052192EE3800233F97 /* Sources */,
-				FD3AAA062192EE3800233F97 /* Frameworks */,
-				FD3AAA072192EE3800233F97 /* CopyFiles */,
+				FDB57113219AB79500A43C13 /* Sources */,
+				FDB57114219AB79500A43C13 /* Frameworks */,
+				FDB57115219AB79500A43C13 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -90,56 +84,54 @@
 			);
 			name = NeoPlus;
 			productName = NeoPlus;
-			productReference = FD3AAA092192EE3800233F97 /* NeoPlus */;
+			productReference = FDB57117219AB79500A43C13 /* NeoPlus */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		FD3AAA012192EE3800233F97 /* Project object */ = {
+		FDB5710F219AB79500A43C13 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = mesikkera;
 				TargetAttributes = {
-					FD3AAA082192EE3800233F97 = {
+					FDB57116219AB79500A43C13 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
-			buildConfigurationList = FD3AAA042192EE3800233F97 /* Build configuration list for PBXProject "NeoPlus" */;
+			buildConfigurationList = FDB57112219AB79500A43C13 /* Build configuration list for PBXProject "NeoPlus" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = FD3AAA002192EE3800233F97;
-			productRefGroup = FD3AAA0A2192EE3800233F97 /* Products */;
+			mainGroup = FDB5710E219AB79500A43C13;
+			productRefGroup = FDB57118219AB79500A43C13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FD3AAA082192EE3800233F97 /* NeoPlus */,
+				FDB57116219AB79500A43C13 /* NeoPlus */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FD3AAA052192EE3800233F97 /* Sources */ = {
+		FDB57113219AB79500A43C13 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD3AAA16219301F700233F97 /* MessagePacket.hpp in Sources */,
-				FD3AAA0D2192EE3800233F97 /* main.cpp in Sources */,
-				FD3AAA152192EE6A00233F97 /* MessagePacket.cpp in Sources */,
-				FD3AAA1921955B3500233F97 /* Connection.cpp in Sources */,
+				FDB5711B219AB79500A43C13 /* main.cpp in Sources */,
+				FDB57123219AB7DF00A43C13 /* MessagePacket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		FD3AAA0E2192EE3800233F97 /* Debug */ = {
+		FDB5711C219AB79500A43C13 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -198,7 +190,7 @@
 			};
 			name = Debug;
 		};
-		FD3AAA0F2192EE3800233F97 /* Release */ = {
+		FDB5711D219AB79500A43C13 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -250,22 +242,28 @@
 			};
 			name = Release;
 		};
-		FD3AAA112192EE3800233F97 /* Debug */ = {
+		FDB5711F219AB79500A43C13 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		FD3AAA122192EE3800233F97 /* Release */ = {
+		FDB57120219AB79500A43C13 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -273,25 +271,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FD3AAA042192EE3800233F97 /* Build configuration list for PBXProject "NeoPlus" */ = {
+		FDB57112219AB79500A43C13 /* Build configuration list for PBXProject "NeoPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FD3AAA0E2192EE3800233F97 /* Debug */,
-				FD3AAA0F2192EE3800233F97 /* Release */,
+				FDB5711C219AB79500A43C13 /* Debug */,
+				FDB5711D219AB79500A43C13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FD3AAA102192EE3800233F97 /* Build configuration list for PBXNativeTarget "NeoPlus" */ = {
+		FDB5711E219AB79500A43C13 /* Build configuration list for PBXNativeTarget "NeoPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FD3AAA112192EE3800233F97 /* Debug */,
-				FD3AAA122192EE3800233F97 /* Release */,
+				FDB5711F219AB79500A43C13 /* Debug */,
+				FDB57120219AB79500A43C13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = FD3AAA012192EE3800233F97 /* Project object */;
+	rootObject = FDB5710F219AB79500A43C13 /* Project object */;
 }

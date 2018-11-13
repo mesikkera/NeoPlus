@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 #include <string>
-#include <google/protobuf/message.h>
-
+// #include <google/protobuf/message.h>
+#include <google/protobuf/message_lite.h>
 namespace neoplus {
 
 	struct PacketHeader {
@@ -23,7 +23,7 @@ namespace neoplus {
 		AcknowledgementPacket
 	};
 
-	::std::string PacketFromMessage(const ::google::protobuf::Message &message, PacketType type);
+	::std::string PacketFromMessage(const ::google::protobuf::MessageLite &message, PacketType type);
 	PacketHeader PacketHeaderFromBytes(const void *data);
 }
 #endif	// MESSAGEPACKET_H_

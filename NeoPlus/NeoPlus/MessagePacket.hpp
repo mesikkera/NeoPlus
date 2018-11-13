@@ -2,7 +2,7 @@
 //  MessagePacket.hpp
 //  NeoPlus
 //
-//  Created by mesikkera on 07/11/2018.
+//  Created by mesikkera on 13/11/2018.
 //  Copyright © 2018 mesikkera. All rights reserved.
 //
 
@@ -12,28 +12,28 @@
 #include <stdint.h>
 #include <string>
 #include <google/protobuf/message.h>
+#include <google/protobuf/message_lite.h>
 
 namespace neoplus {
     
     struct PacketHeader {
-        int32_t size;
-        int32_t encoding;
-        int32_t type;
+        int32_t size;               // 패킷 사이즈 (헤더 포함)
+        int32_t encoding;           // 패킷 인코딩 (헤더 제외)
+        int32_t type;               // 패킷 타입
         int32_t reserved;
     };
-
-    enum {PacketHeaderSize = sizeof(PacketHeader)};
-
+    
+    enum { packetHeaderSize = sizeof(PacketHeader) };
+    
     enum PacketType {
-        RequestPacket,
-        ResponsePacket,
-        NotificationPacket,
-        AcknowledgementPacket
+        requestPacket,
+        responsePacket,
+        notificationPacket,
+        acknowledgementPacket
     };
     
-    ::std::string PacketFromMessage(const ::google::protobuf::Message &message, PacketType type);
+    std::string PacketFromMessage(const ::google::protobuf::MessageLite &message, PacketType type);
     PacketHeader PacketHeaderFromBytes(const void *data);
-
-}   /* namespace neoplus */
+}
 
 #endif /* MessagePacket_hpp */
