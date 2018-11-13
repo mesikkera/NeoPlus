@@ -1,6 +1,8 @@
 #ifndef CONNECTION_H_
 #define CONNECTION_H_
 
+#include "MessagePacket.h"
+
 #include <boost/asio.hpp>
 
 class Connection {
