@@ -19,11 +19,11 @@ namespace neoplus {
 		return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 	}
 
-	::std::string PacketFromMessage(const ::google::protobuf::MessageLite &message, PacketType type)
+	std::string PacketFromMessage(const google::protobuf::MessageLite &message, PacketType type)
 	{
 		int size = message.ByteSize() + PacketHeaderSize;
-		const int encoding = 0;
 		char header[PacketHeaderSize];
+		const int encoding = 0;
 		
 		Int32ToBytes(size, header + offsetof(PacketHeader, size));
 		Int32ToBytes(encoding, header + offsetof(PacketHeader, type));
