@@ -19,9 +19,9 @@ namespace neoplus {
 		return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 	}
 
-	std::string PacketFromMessage(const google::protobuf::MessageLite &message, PacketType type)
+	std::string PacketFromMessage(const google::protobuf::Message &message, PacketType type)
 	{
-		int size = message.ByteSize() + PacketHeaderSize;
+		int size = message.ByteSize()+ PacketHeaderSize;
 		char header[PacketHeaderSize];
 		const int encoding = 0;
 		
@@ -36,7 +36,7 @@ namespace neoplus {
 		return packet;
 	}
 
-	PacketHeader PacHeaderFromBytes(const void *data) { 
+	PacketHeader PacketHeaderFromBytes(const void *data) { 
 		PacketHeader header;
 		const uint8_t *bytes = static_cast<const uint8_t *>(data);
 
