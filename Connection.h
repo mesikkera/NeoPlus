@@ -8,8 +8,17 @@
 
 namespace neoplus {
 
-using message_ptr = boost::shared_ptr<google::protobuf::Message>;
+	using message_ptr = boost::shared_ptr<google::protobuf::Message>;
 	
+	// forward declation
+	class Connection;
+
+	
+	class Endpoint {
+	public:
+		virtual ~Endpoint();
+	};
+
 	class Connection {
 	public:
 		Connection(boost::asio::io_service& ios,
@@ -33,6 +42,9 @@ using message_ptr = boost::shared_ptr<google::protobuf::Message>;
 		void preSendRequest(message_ptr request);
 
 		// response from server.
+
+		
+		Endpoint *_endpoint;
 
 	};
 }
