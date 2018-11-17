@@ -17,6 +17,9 @@ namespace neoplus {
 	class Endpoint {
 	public:
 		virtual ~Endpoint();
+
+		virtual void connected(Connection *connection) = 0;
+		virtual void connecionFailed(Connection *connection, const boost::system::error_code &error) = 0;
 	};
 
 	class Connection {
@@ -42,7 +45,7 @@ namespace neoplus {
 		void preSendRequest(message_ptr request);
 
 		// response from server.
-
+		void handleConnection(const boost::system::error_code &error);
 		
 		Endpoint *_endpoint;
 
