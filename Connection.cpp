@@ -31,10 +31,10 @@ namespace neoplus {
 	}
 
 	void Connection::preSendRequest(message_ptr request) {
-		bool idle = requestQueue.empty();
-		requestQueue.push_back(neoplus::PacketFromMessage(*request, neoplus::RequestPacket));
+		bool idle = _requestQueue.empty();
+		_requestQueue.push_back(neoplus::PacketFromMessage(*request, neoplus::RequestPacket));
 		if(idle) {
-			boost::asio::async_write(_socket, boost::asio::buffer(requestQueue.front()), 
+			boost::asio::async_write(_socket, boost::asio::buffer(_requestQueue.front()), 
 									 _strand.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
 		}		
 
@@ -42,8 +42,8 @@ namespace neoplus {
 
 	void Connection::handleSendQueuedRequest(const boost::system::error_code &error) {
 		if (!error) {
-			requestQueue.pop_front();
-			if(!requestQueue.empty()) {
+			_requestQueue.pop_front(); 
+			if(!_requestQueue.empty()) {
 				// send request in queue
 			}
 		} else {
@@ -52,7 +52,7 @@ namespace neoplus {
 	}
 
 	void Connection::sendQueuedRequest() {
-		boost::asio::async_write(_socket, boost::asio::buffer(requestQueue.front()), 
+		boost::asio::async_write(_socket, boost::asio::buffer(_requestQueue.front()), 
 								 _strand.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
 	}
 
@@ -68,6 +68,7 @@ namespace neoplus {
 				_endpoint -> connected(this);
 			} 
 			// read packet header
+			readPacketHeader();
 		} else {
 			if(_endpoint) {
 				_endpoint -> connecionFailed(this, error);
@@ -79,5 +80,27 @@ namespace neoplus {
 		}
 
 	}
+
+	void readPacketHeader() {
+		// socket
+		// received packet header 
+		// packet header size
+		// _strand.wrap(read Packet header, this, boost::asio::placeholer::error)));
+		// read Packet Header / read Packet Body ==> readingPacketHeader / readingPacketBody
+		// readingPacketHeader(const boost::system::error_code& error);
+		// readingPacketBody(const boost::system::error_code& error);
+		// _strand.wrap(ReadingPacketHeader, this, boost::asio::placeholer::error));
+
+	}
+
+	void readingPacketHeader(const boost::system::error_code &error) {
+
+	}
+
+	void readingPacketBody(const boost::system::error_code &error) {
+
+	}
+
+
 
 }

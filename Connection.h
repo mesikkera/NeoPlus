@@ -35,7 +35,8 @@ namespace neoplus {
 		boost::asio::ip::tcp::socket _socket;
 		boost::asio::ip::tcp::resolver::iterator _iterator;
 
-		std::deque<std::string> requestQueue;
+		std::deque<std::string> _requestQueue;
+		char _receivedHeader[neoplus::PacketHeaderSize];
 
 		void preClose();
 		
@@ -46,6 +47,7 @@ namespace neoplus {
 
 		// response from server.
 		void handleConnection(const boost::system::error_code &error);
+		void ReadPacketHeader();
 		
 		Endpoint *_endpoint;
 
