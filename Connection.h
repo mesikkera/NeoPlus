@@ -49,8 +49,8 @@ namespace neoplus {
 		// response from server.
 		void handleConnection(const boost::system::error_code &error);
 		void readPacket();
-		void readPakcetHeader();
-		void readPacketBody();
+		void readPacketHeader(const boost::system::error_code &error);
+		void readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType);
 
 		Endpoint *_endpoint;
 

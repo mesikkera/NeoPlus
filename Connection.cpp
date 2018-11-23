@@ -81,7 +81,7 @@ namespace neoplus {
 
 	}
 
-	void readPacket() {
+	void Connection::readPacket() {
 		// socket
 			// received packet header 
 		// packet header size
@@ -96,16 +96,36 @@ namespace neoplus {
 		// _socket
 		// boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize)
 		// strand_.wrap(boost::bind(&Connection::handleReadHeader, this, boost::asio::placeholders::error)));
-		boost::asio::async_read(_socket, boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize),
+		boost::asio::async_read(_socket, 
+								boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize),
 			                    _strand.wrap(boost::bind(&Connection::readPacketHeader, this, boost::asio::placeholders::error)));
 
 	}
 
-	void readPacketHeader() {
+	void Connection::readPacketHeader(const boost::system::error_code &error) {
+		if (!error) { 
+			_receivedHeader = neoplus::PacketHeaderFromBytes(_receivedHeaderBuffer);
+			
+			int32_t packetBodySize = _receivedHeader.size - neoplus::PacketHeaderSize;
+			if(packetBodySize > 0 && _receivedHeader.encoding == 0) {
+				char *buffer = new char[packetBodySize];
+				boost::asio::async_read(_socket, 
+										boost::asio::buffer(buffer, packetBodySize), 
+										_strand.wrap(boost::bind(&Connection::readPacketBody)
+											         this,
+											         boost::asio::placeholders::error,
+											         buffer,
+											         static_cast<neoplus::PacketType>(_receivedHeader.type)))
+			}
+
+		} else {
+			std::cerr << "Error Occurred in readPacketHeader(): " << error.message() << std::endl;
+			preClose();
+		}
 
 	}
 
-	void readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType) {
+	void Connection::readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType) {
 		if(!error) {
 			if(packetType == neoplus::ResponsePacket) {
 
@@ -115,7 +135,7 @@ namespace neoplus {
 
 			}
 		} else {
-			std::cerr <<"Error reading packet body: " << error.message() << std::endl;
+			std::cerr <<"Error Occurred in readPacketBody(): " << error.message() << std::endl;
 			preClose();
 		}
 	}
