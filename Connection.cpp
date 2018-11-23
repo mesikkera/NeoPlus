@@ -67,8 +67,8 @@ namespace neoplus {
 			if(_endpoint) {
 				_endpoint -> connected(this);
 			} 
-			// read packet header
-			readPacketHeader();
+			// read packet
+			readPacket();
 		} else {
 			if(_endpoint) {
 				_endpoint -> connecionFailed(this, error);
@@ -81,9 +81,9 @@ namespace neoplus {
 
 	}
 
-	void readPacketHeader() {
+	void readPacket() {
 		// socket
-		// received packet header 
+			// received packet header 
 		// packet header size
 		// _strand.wrap(read Packet header, this, boost::asio::placeholer::error)));
 		// read Packet Header / read Packet Body ==> readingPacketHeader / readingPacketBody
@@ -91,16 +91,32 @@ namespace neoplus {
 		// readingPacketBody(const boost::system::error_code& error);
 		// _strand.wrap(ReadingPacketHeader, this, boost::asio::placeholer::error));
 
+		// boost::asio::async_read(AsyncReadStream &s, const MutableBufferSequence &buffers, ReadHandler &&handler)
+
+		// _socket
+		// boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize)
+		// strand_.wrap(boost::bind(&Connection::handleReadHeader, this, boost::asio::placeholders::error)));
+		boost::asio::async_read(_socket, boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize),
+			                    _strand.wrap(boost::bind(&Connection::readPacketHeader, this, boost::asio::placeholders::error)));
+
 	}
 
-	void readingPacketHeader(const boost::system::error_code &error) {
+	void readPacketHeader() {
 
 	}
 
-	void readingPacketBody(const boost::system::error_code &error) {
+	void readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType) {
+		if(!error) {
+			if(packetType == neoplus::ResponsePacket) {
 
+			} else if (packetType == neoplus::NotificationPacket) {
+
+			} else {
+
+			}
+		} else {
+			std::cerr <<"Error reading packet body: " << error.message() << std::endl;
+			preClose();
+		}
 	}
-
-
-
-}
+} 

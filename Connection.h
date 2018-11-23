@@ -13,7 +13,7 @@ namespace neoplus {
 	// forward declation
 	class Connection;
 
-	
+	// interface class
 	class Endpoint {
 	public:
 		virtual ~Endpoint();
@@ -36,10 +36,11 @@ namespace neoplus {
 		boost::asio::ip::tcp::resolver::iterator _iterator;
 
 		std::deque<std::string> _requestQueue;
-		char _receivedHeader[neoplus::PacketHeaderSize];
+		char _receivedHeaderBuffer[neoplus::PacketHeaderSize];
+		neoplus::PacketHeader _receivedHeader;
 
 		void preClose();
-		
+		 
 		// request to server.
 		void handleSendQueuedRequest(const boost::system::error_code &error);
 		void sendQueuedRequest();
@@ -47,8 +48,10 @@ namespace neoplus {
 
 		// response from server.
 		void handleConnection(const boost::system::error_code &error);
-		void ReadPacketHeader();
-		
+		void readPacket();
+		void readPakcetHeader();
+		void readPacketBody();
+
 		Endpoint *_endpoint;
 
 	};
