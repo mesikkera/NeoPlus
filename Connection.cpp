@@ -83,7 +83,7 @@ namespace neoplus {
 
 	void Connection::readPacket() {
 		// socket
-			// received packet header 
+		// received packet header 
 		// packet header size
 		// _strand.wrap(read Packet header, this, boost::asio::placeholer::error)));
 		// read Packet Header / read Packet Body ==> readingPacketHeader / readingPacketBody
@@ -119,23 +119,26 @@ namespace neoplus {
 			}
 
 		} else {
-			std::cerr << "Error Occurred in readPacketHeader(): " << error.message() << std::endl;
+			std::cerr << "Error Occurred in Connection::readPacketHeader(): " << error.message() << std::endl;
 			preClose();
 		}
-
 	}
 
 	void Connection::readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType) {
 		if(!error) {
 			if(packetType == neoplus::ResponsePacket) {
-
+				// process Response Packet
+				_endpoint -> processResponse(this);
 			} else if (packetType == neoplus::NotificationPacket) {
-
+				// process Notification Packet
+				_endpoint -> processRequest(this);
 			} else {
-
+				// error message => unknown or wrong
+				std::cerr << "Error Occurred in Connection::readPacketBody()::Unknown or Wrong packet type ==> " << _receivedHeader.type;
 			}
+			// read packet
 		} else {
-			std::cerr <<"Error Occurred in readPacketBody(): " << error.message() << std::endl;
+			std::cerr <<"Error Occurred in Connection::readPacketBody(): " << error.message() << std::endl;
 			preClose();
 		}
 	}

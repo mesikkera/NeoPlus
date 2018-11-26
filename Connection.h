@@ -20,6 +20,9 @@ namespace neoplus {
 
 		virtual void connected(Connection *connection) = 0;
 		virtual void connecionFailed(Connection *connection, const boost::system::error_code &error) = 0;
+
+		virtual void processResponse(Connection *connection) = 0;
+		virtual void processRequest(Connection *connection) = 0;
 	};
 
 	class Connection {
