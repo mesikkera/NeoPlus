@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 #include <string>
-// #include <google/protobuf/message.h>
-#include <google/protobuf/message_lite.h>
+#include <google/protobuf/message.h>
+// #include <google/protobuf/message_lite.h>
 namespace neoplus {
 
 	struct PacketHeader {
