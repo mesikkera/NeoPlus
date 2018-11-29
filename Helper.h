@@ -12,7 +12,7 @@
 #include <string>
 
 namespace neoplus {
-	bool CompareVersion(const std::string &version1, const std::string &version2);
+	int CompareVersion(const std::string &version1, const std::string &version2);
 }
 
 #endif	// HELPER_H_
