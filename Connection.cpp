@@ -9,9 +9,10 @@ using boost::asio::ip::tcp;
 namespace neoplus {
 
 	Connection::Connection(boost::asio::io_service& ios,
-						   tcp::resolver::iterator iter) : _strand(ios), _socket(ios), _iterator(iter) {
-		boost::asio::async_connect(_socket, _iterator, _strand);
-
+						   tcp::resolver::iterator iter,
+						   Endpoint *endpoint) : _strand(ios), _socket(ios), _iterator(iter), _endpoint(endpoint) {
+		boost::asio::async_connect(_socket, _iterator, _strand.wrap(boost::bind(&Connection::handleConnection, this,
+																	boost::asio::placeholders::error)));
 	}
 
 	void Connection::close() {
@@ -27,7 +28,7 @@ namespace neoplus {
 
 	// Methods for handling request.
 	void Connection::sendRequest(message_ptr request) {
-		_strand.post(boost::bind(&Connection::sendRequest, this, request));
+		_strand.post(boost::bind(&Connection::preSendRequest, this, request));
 	}
 
 	void Connection::preSendRequest(message_ptr request) {
@@ -57,7 +58,7 @@ namespace neoplus {
 	}
 
 	// Methods for handling response.
-	void Connection::handleConnection(const boost::system::error_code &error) {
+	void Connection::handleConnect(const boost::system::error_code &error) {
 		// 1. !error: endpoint --> connected
 		// 						   start read packet header
 		// 2. error: endpoint --> connection failed 
@@ -75,8 +76,8 @@ namespace neoplus {
 			}
 			_socket.close();
 			boost::this_thread::sleep_for(boost::chrono::milliseconds(3000));
-			boost::asio::async_connect(_socket, _iterator, 
-									   _strand.wrap(boost::bind(&Connection::handleConnection, this, boost::asio::placeholders::error)));
+			boost::asio::async_connect(_socket, _iterator,
+									   _strand.wrap(boost::bind(&Connection::handleConnect, this, boost::asio::placeholders::error)));
 		}
 
 	}
@@ -109,8 +110,8 @@ namespace neoplus {
 			int32_t packetBodySize = _receivedHeader.size - neoplus::PacketHeaderSize;
 			if(packetBodySize > 0 && _receivedHeader.encoding == 0) {
 				char *buffer = new char[packetBodySize];
-				boost::asio::async_read(_socket, 
-										boost::asio::buffer(buffer, packetBodySize), 
+				boost::asio::async_read(_socket,
+										boost::asio::buffer(buffer, packetBodySize),
 										_strand.wrap(boost::bind(&Connection::readPacketBody)
 											         this,
 											         boost::asio::placeholders::error,

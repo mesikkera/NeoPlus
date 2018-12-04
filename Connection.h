@@ -28,12 +28,16 @@ namespace neoplus {
 	class Connection {
 	public:
 		Connection(boost::asio::io_service& ios,
-				   boost::asio::ip::tcp::resolver::iterator iter);
+				   boost::asio::ip::tcp::resolver::iterator iter,
+				   Endpoint *endpoint);
 		
 		void close();
 		void sendRequest(message_ptr request);
 
 	private:
+		Connection(const Connection&);
+		void operator=(const Connection&);
+
 		boost::asio::io_service::strand _strand;
 		boost::asio::ip::tcp::socket _socket;
 		boost::asio::ip::tcp::resolver::iterator _iterator;
