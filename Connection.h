@@ -61,7 +61,7 @@ namespace neoplus {
 		void preSendRequest(message_ptr request);
 
 		// response from server.
-		void handleConnection(const boost::system::error_code &error);
+		void handleConnect(const boost::system::error_code &error);
 		void readPacket();
 		void readPacketHeader(const boost::system::error_code &error);
 		void readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType);
