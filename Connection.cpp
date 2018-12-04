@@ -9,7 +9,7 @@ using boost::asio::ip::tcp;
 namespace neoplus {
 
 	Connection::Connection(boost::asio::io_service& ios,
-						   tcp::resolver::iterator iter) : _strand(ios), _socket(ios), _iterator(iter), {
+						   tcp::resolver::iterator iter) : _strand(ios), _socket(ios), _iterator(iter) {
 		boost::asio::async_connect(_socket, _iterator, _strand.wrap(boost::bind(&Connection::handleConnection, this,
 																	boost::asio::placeholders::error)));
 	}
