@@ -1,3 +1,11 @@
+//
+//  Connection.h
+//  NeoPlus
+//
+//  Created by mesikkera on 23/11/2018.
+//  Copyright © 2018 mesikkera. All rights reserved.
+//
+
 #ifndef CONNECTION_H_
 #define CONNECTION_H_
 
@@ -13,7 +21,7 @@ namespace neoplus {
 	// forward declation
 	class Connection;
 
-	// interface class
+	// interface for delegate of Endpoint
 	class Endpoint {
 	public:
 		virtual ~Endpoint();
@@ -28,8 +36,7 @@ namespace neoplus {
 	class Connection {
 	public:
 		Connection(boost::asio::io_service& ios,
-				   boost::asio::ip::tcp::resolver::iterator iter,
-				   Endpoint *endpoint);
+				   boost::asio::ip::tcp::resolver::iterator iter);
 		
 		void close();
 		void sendRequest(message_ptr request);
