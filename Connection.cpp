@@ -14,6 +14,7 @@ namespace neoplus {
 																	boost::asio::placeholders::error)));
 	}
 
+	// close connection
 	void Connection::close() {
 		_strand.post(boost::bind(&Connection::closeSocket, this));
 	}
@@ -30,6 +31,7 @@ namespace neoplus {
 		_strand.post(boost::bind(&Connection::preSendRequest, this, request));
 	}
 
+	// preprocess send request
 	void Connection::preSendRequest(message_ptr request) {
 		bool idle = _requestQueue.empty();
 		_requestQueue.push_back(neoplus::PacketFromMessage(*request, neoplus::RequestPacket));
@@ -37,14 +39,13 @@ namespace neoplus {
 			boost::asio::async_write(_socket, boost::asio::buffer(_requestQueue.front()), 
 									 _strand.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
 		}		
-
 	}
 
 	void Connection::handleSendQueuedRequest(const boost::system::error_code &error) {
 		if (!error) {
 			_requestQueue.pop_front(); 
 			if(!_requestQueue.empty()) {
-				// send request in queue
+				sendQueuedRequest();
 			}
 		} else {
 			closeSocket();
