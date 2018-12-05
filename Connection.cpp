@@ -59,16 +59,10 @@ namespace neoplus {
 
 	// Methods for handling response.
 	void Connection::handleConnect(const boost::system::error_code &error) {
-		// 1. !error: endpoint --> connected
-		// 						   start read packet header
-		// 2. error: endpoint --> connection failed 
-		// 						  sleep 
-		//					      retry
 		if(!error) {
 			if(_endpoint) {
 				_endpoint -> connected(this);
 			} 
-			// read packet
 			readPacket();
 		} else {
 			if(_endpoint) {
@@ -83,24 +77,9 @@ namespace neoplus {
 	}
 
 	void Connection::readPacket() {
-		// socket
-		// received packet header 
-		// packet header size
-		// _strand.wrap(read Packet header, this, boost::asio::placeholer::error)));
-		// read Packet Header / read Packet Body ==> readingPacketHeader / readingPacketBody
-		// readingPacketHeader(const boost::system::error_code& error);
-		// readingPacketBody(const boost::system::error_code& error);
-		// _strand.wrap(ReadingPacketHeader, this, boost::asio::placeholer::error));
-
-		// boost::asio::async_read(AsyncReadStream &s, const MutableBufferSequence &buffers, ReadHandler &&handler)
-
-		// _socket
-		// boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize)
-		// strand_.wrap(boost::bind(&Connection::handleReadHeader, this, boost::asio::placeholders::error)));
 		boost::asio::async_read(_socket, 
 								boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize),
 			                    _strand.wrap(boost::bind(&Connection::readPacketHeader, this, boost::asio::placeholders::error)));
-
 	}
 
 	void Connection::readPacketHeader(const boost::system::error_code &error) {
@@ -110,13 +89,12 @@ namespace neoplus {
 			int32_t packetBodySize = _receivedHeader.size - neoplus::PacketHeaderSize;
 			if(packetBodySize > 0 && _receivedHeader.encoding == 0) {
 				char *buffer = new char[packetBodySize];
-				boost::asio::async_read(_socket,
-										boost::asio::buffer(buffer, packetBodySize),
-										_strand.wrap(boost::bind(&Connection::readPacketBody)
+				boost::asio::async_read(_socket, boost::asio::buffer(buffer, packetBodySize),
+										_strand.wrap(boost::bind(&Connection::readPacketBody,
 											         this,
 											         boost::asio::placeholders::error,
 											         buffer,
-											         static_cast<neoplus::PacketType>(_receivedHeader.type)))
+											         static_cast<neoplus::PacketType>(_receivedHeader.type))))
 			}
 
 		} else {
