@@ -53,7 +53,7 @@ namespace neoplus {
 		char _receivedHeaderBuffer[neoplus::PacketHeaderSize];
 		neoplus::PacketHeader _receivedHeader;
 
-		void preClose();
+		void closeSocket();
 		 
 		// request to server.
 		void handleSendQueuedRequest(const boost::system::error_code &error);

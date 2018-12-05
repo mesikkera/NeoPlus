@@ -15,10 +15,10 @@ namespace neoplus {
 	}
 
 	void Connection::close() {
-		_strand.post(boost::bind(&Connection::preClose, this));
+		_strand.post(boost::bind(&Connection::closeSocket, this));
 	}
 
-	void Connection::preClose() {
+	void Connection::closeSocket() {
 		if (_socket.is_open()) {
 			boost::system::error_code error;
 			_socket.close(error);
@@ -47,7 +47,7 @@ namespace neoplus {
 				// send request in queue
 			}
 		} else {
-			preClose();
+			closeSocket();
 		}
 	}
 
@@ -120,7 +120,7 @@ namespace neoplus {
 
 		} else {
 			std::cerr << "Error Occurred in Connection::readPacketHeader(): " << error.message() << std::endl;
-			preClose();
+			closeSocket();
 		}
 	}
 
@@ -139,7 +139,7 @@ namespace neoplus {
 			// read packet
 		} else {
 			std::cerr <<"Error Occurred in Connection::readPacketBody(): " << error.message() << std::endl;
-			preClose();
+			closeSocket();
 		}
 	}
 } 
