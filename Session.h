@@ -9,10 +9,22 @@
 #ifndef SESSION_H_
 #define SESSION_H_
 
-namespace neoplus {
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/asio.hpp>
 
-	class Session {
+#include "MessagePacket.h"
+
+namespace neoplus {
 	
+ 	using message_ptr = boost::shared_ptr<::google::protobuf::Message>;
+ 	
+	class Session : public boost::enable_shared_from_this<Session> {
+	public:
+		Session(boost::asio::io_service &ios);
+		~Session();
+
+	private:
+
 	};
 }
 
