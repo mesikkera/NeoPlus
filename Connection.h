@@ -45,13 +45,13 @@ namespace neoplus {
 		Connection(const Connection&);
 		void operator=(const Connection&);
 
-		boost::asio::io_service::strand _strand;
-		boost::asio::ip::tcp::socket _socket;
-		boost::asio::ip::tcp::resolver::iterator _iterator;
+		boost::asio::io_service::strand strand_;
+		boost::asio::ip::tcp::socket socket_;
+		boost::asio::ip::tcp::resolver::iterator iterator_;
 
-		std::deque<std::string> _requestQueue;
+		std::deque<std::string> requestQueue_;
 		char _receivedHeaderBuffer[neoplus::PacketHeaderSize];
-		neoplus::PacketHeader _receivedHeader;
+		neoplus::PacketHeader receivedHeader_;
 
 		void closeSocket();
 		 
@@ -66,10 +66,8 @@ namespace neoplus {
 		void readPacketHeader(const boost::system::error_code &error);
 		void readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType);
 
-		Endpoint *_endpoint;
-
+		Endpoint *endpoint_;
 	};
 }
-
 
 #endif

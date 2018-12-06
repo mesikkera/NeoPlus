@@ -9,26 +9,26 @@ using boost::asio::ip::tcp;
 namespace neoplus {
 
 	Connection::Connection(boost::asio::io_service& ios,
-						   tcp::resolver::iterator iter) : _strand(ios), _socket(ios), _iterator(iter) {
-		boost::asio::async_connect(_socket, _iterator, _strand.wrap(boost::bind(&Connection::handleConnect, this,
+						   tcp::resolver::iterator iter) : strand_(ios), socket_(ios), iterator_(iter) {
+		boost::asio::async_connect(socket_, iterator_, strand_.wrap(boost::bind(&Connection::handleConnect, this,
 																	boost::asio::placeholders::error)));
 	}
 
 	// close connection
 	void Connection::close() {
-		_strand.post(boost::bind(&Connection::closeSocket, this));
+		strand_.post(boost::bind(&Connection::closeSocket, this));
 	}
 
 	void Connection::closeSocket() {
-		if (_socket.is_open()) {
+		if (socket_.is_open()) {
 			boost::system::error_code error;
-			_socket.close(error);
+			socket_.close(error);
 		}
 	}
 
 	// Methods for handling request.
 	void Connection::sendRequest(message_ptr request) {
-		_strand.post(boost::bind(&Connection::preSendRequest, this, request));
+		strand_.post(boost::bind(&Connection::preSendRequest, this, request));
 	}
 
 	// preprocess send request
