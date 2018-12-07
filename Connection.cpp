@@ -33,18 +33,18 @@ namespace neoplus {
 
 	// preprocess send request
 	void Connection::preSendRequest(message_ptr request) {
-		bool idle = _requestQueue.empty();
-		_requestQueue.push_back(neoplus::PacketFromMessage(*request, neoplus::RequestPacket));
+		bool idle = requestQueue_.empty();
+		requestQueue_.push_back(neoplus::PacketFromMessage(*request, neoplus::RequestPacket));
 		if(idle) {
-			boost::asio::async_write(_socket, boost::asio::buffer(_requestQueue.front()), 
-									 _strand.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
+			boost::asio::async_write(socket_, boost::asio::buffer(requestQueue_.front()), 
+									 strand_.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
 		}		
 	}
 
 	void Connection::handleSendQueuedRequest(const boost::system::error_code &error) {
 		if (!error) {
-			_requestQueue.pop_front(); 
-			if(!_requestQueue.empty()) {
+			requestQueue_.pop_front(); 
+			if(!requestQueue_.empty()) {
 				sendQueuedRequest();
 			}
 		} else {
@@ -53,48 +53,48 @@ namespace neoplus {
 	}
 
 	void Connection::sendQueuedRequest() {
-		boost::asio::async_write(_socket, boost::asio::buffer(_requestQueue.front()), 
-								 _strand.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
+		boost::asio::async_write(socket_, boost::asio::buffer(requestQueue_.front()), 
+								 strand_.wrap(boost::bind(&Connection::handleSendQueuedRequest, this, boost::asio::placeholders::error)));
 	}
 
 	// Methods for handling response.
 	void Connection::handleConnect(const boost::system::error_code &error) {
 		if(!error) {
-			if(_endpoint) {
-				_endpoint -> connected(this);
+			if(endpoint_) {
+				endpoint_ -> connected(this);
 			} 
 			readPacket();
 		} else {
-			if(_endpoint) {
-				_endpoint -> connecionFailed(this, error);
+			if(endpoint_) {
+				endpoint_ -> connecionFailed(this, error);
 			}
-			_socket.close();
+			socket_.close();
 			boost::this_thread::sleep_for(boost::chrono::milliseconds(3000));
-			boost::asio::async_connect(_socket, _iterator,
-									   _strand.wrap(boost::bind(&Connection::handleConnect, this, boost::asio::placeholders::error)));
+			boost::asio::async_connect(socket_, iterator_,
+									   strand_.wrap(boost::bind(&Connection::handleConnect, this, boost::asio::placeholders::error)));
 		}
 
 	}
 
 	void Connection::readPacket() {
-		boost::asio::async_read(_socket, 
-								boost::asio::buffer(_receivedHeaderBuffer, neoplus::PacketHeaderSize),
-			                    _strand.wrap(boost::bind(&Connection::readPacketHeader, this, boost::asio::placeholders::error)));
+		boost::asio::async_read(socket_, 
+								boost::asio::buffer(receivedHeader_Buffer, neoplus::PacketHeaderSize),
+			                    strand_.wrap(boost::bind(&Connection::readPacketHeader, this, boost::asio::placeholders::error)));
 	}
 
 	void Connection::readPacketHeader(const boost::system::error_code &error) {
 		if (!error) { 
-			_receivedHeader = neoplus::PacketHeaderFromBytes(_receivedHeaderBuffer);
+			receivedHeader_ = neoplus::PacketHeaderFromBytes(receivedHeader_Buffer);
 			
-			int32_t packetBodySize = _receivedHeader.size - neoplus::PacketHeaderSize;
-			if(packetBodySize > 0 && _receivedHeader.encoding == 0) {
+			int32_t packetBodySize = receivedHeader_.size - neoplus::PacketHeaderSize;
+			if(packetBodySize > 0 && receivedHeader_.encoding == 0) {
 				char *buffer = new char[packetBodySize];
-				boost::asio::async_read(_socket, boost::asio::buffer(buffer, packetBodySize),
-										_strand.wrap(boost::bind(&Connection::readPacketBody,
+				boost::asio::async_read(socket_, boost::asio::buffer(buffer, packetBodySize),
+										strand_.wrap(boost::bind(&Connection::readPacketBody,
 											         this,
 											         boost::asio::placeholders::error,
 											         buffer,
-											         static_cast<neoplus::PacketType>(_receivedHeader.type))))
+											         static_cast<neoplus::PacketType>(receivedHeader_.type))));
 			}
 
 		} else {
@@ -103,17 +103,17 @@ namespace neoplus {
 		}
 	}
 
-	void Connection::readPacketBody(const boost::system::error_code &error, neoplus::PacketType packetType) {
+	void Connection::readPacketBody(const boost::system::error_code &error, const char *buffer, neoplus::PacketType packetType) {
 		if(!error) {
 			if(packetType == neoplus::ResponsePacket) {
 				// process Response Packet
-				_endpoint -> processResponse(this);
+				endpoint_ -> processResponse(this);
 			} else if (packetType == neoplus::NotificationPacket) {
 				// process Notification Packet
-				_endpoint -> processRequest(this);
+				endpoint_ -> processRequest(this);
 			} else {
 				// error message => unknown or wrong
-				std::cerr << "Error Occurred in Connection::readPacketBody()::Unknown or Wrong packet type ==> " << _receivedHeader.type;
+				std::cerr << "Error Occurred in Connection::readPacketBody()::Unknown or Wrong packet type ==> " << receivedHeader_.type;
 			}
 			// read packet
 		} else {
